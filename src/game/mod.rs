@@ -17,5 +17,5 @@ pub use constants::*;
 pub use enemy::Enemy;
 pub use fire_breath::SpawnFireBreathEvent;
 pub use level::{BorderTile, Tile};
-pub use player::Player;
+pub use player::{Player, PlayerMovementEvent};
 pub use plugin::GamePlugin;
