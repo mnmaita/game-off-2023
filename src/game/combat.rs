@@ -3,14 +3,14 @@ use bevy_rapier2d::prelude::*;
 
 use crate::{
     camera::{RenderLayer, YSorted},
-    playing,
+    playing, AppState,
 };
 
 use super::{
     power_up::{PowerUpEvent, PowerUpEventType},
     resource_pool::{Fire, Health, ResourcePool},
     score_system::{ScoreEvent, ScoreEventType},
-    Enemy, InGameEntity, Player, PLAYER_GROUP, PROJECTILE_GROUP, TILE_SIZE,
+    Enemy, Player, PLAYER_GROUP, PROJECTILE_GROUP, TILE_SIZE,
 };
 
 pub(super) struct CombatPlugin;
@@ -117,40 +117,39 @@ fn spawn_projectiles(
             0.
         };
 
-        let mut projectile_entity_commands = commands.spawn(ProjectileBundle {
-            ccd: Ccd::enabled(),
-            collider: Collider::cuboid(size.x / 2., size.y / 2.),
-            collision_groups: CollisionGroups::new(
-                PROJECTILE_GROUP,
-                PLAYER_GROUP | PROJECTILE_GROUP,
-            ),
-            damage: ImpactDamage(damage),
-            emitter: Emitter(emitter),
-            marker: Projectile,
-            render_layers: RenderLayers::layer(RenderLayer::Sky.into()),
-            rigid_body: RigidBody::Dynamic,
-            sprite: SpriteBundle {
-                sprite: Sprite {
-                    color: Color::BLACK,
-                    custom_size: Some(size),
+        commands.spawn((
+            ProjectileBundle {
+                ccd: Ccd::enabled(),
+                collider: Collider::cuboid(size.x / 2., size.y / 2.),
+                collision_groups: CollisionGroups::new(
+                    PROJECTILE_GROUP,
+                    PLAYER_GROUP | PROJECTILE_GROUP,
+                ),
+                damage: ImpactDamage(damage),
+                emitter: Emitter(emitter),
+                marker: Projectile,
+                render_layers: RenderLayers::layer(RenderLayer::Sky.into()),
+                rigid_body: RigidBody::Dynamic,
+                sprite: SpriteBundle {
+                    sprite: Sprite {
+                        color: Color::BLACK,
+                        custom_size: Some(size),
+                        ..default()
+                    },
+                    transform: Transform::from_translation(position.extend(1.0))
+                        .with_rotation(Quat::from_rotation_z(-angle)),
                     ..default()
                 },
-                transform: Transform::from_translation(position.extend(1.0))
-                    .with_rotation(Quat::from_rotation_z(-angle)),
-                ..default()
+                velocity: Velocity {
+                    linvel: direction * speed,
+                    angvel: 0.,
+                },
             },
-            velocity: Velocity {
-                linvel: direction * speed,
-                angvel: 0.,
-            },
-        });
-
-        projectile_entity_commands.insert((
             Damping {
                 linear_damping: 1.0,
                 angular_damping: 10.0,
             },
-            InGameEntity,
+            StateScoped(AppState::GameOver),
             YSorted,
         ));
     }
@@ -163,11 +162,11 @@ fn projectile_collision_with_player(
     projectile_query: Query<(Entity, &ImpactDamage), With<Projectile>>,
     rapier_context: Res<RapierContext>,
 ) {
-    let (player_entity, mut player_hitpoints) = player_query.single_mut(); // A first entity with a collider attached.
+    let (player_entity, mut player_hitpoints) = player_query.single_mut();
 
     for (projectile_entity, projectile_damage) in &projectile_query {
         if let Some(contact_pair) = rapier_context.contact_pair(player_entity, projectile_entity) {
-            if contact_pair.has_any_active_contacts() {
+            if contact_pair.has_any_active_contact() {
                 player_hitpoints.subtract(projectile_damage.0);
                 score_event_writer.send(ScoreEvent::new(0, ScoreEventType::ResetMultiplier));
 
@@ -219,7 +218,7 @@ fn despawn_dead_entities(
 
 fn despawn_projectiles(
     mut commands: Commands,
-    projectile_query: Query<(Entity, &Velocity), With<Projectile>>,
+    projectile_query: Query<(Entity, &Velocity), (With<Projectile>, Changed<Velocity>)>,
 ) {
     for (entity, velocity) in &projectile_query {
         if velocity.linvel.length() < 60. {

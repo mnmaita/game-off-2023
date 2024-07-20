@@ -6,13 +6,13 @@ use bevy_rapier2d::prelude::{Collider, CollisionGroups, Sensor};
 use crate::{
     audio::DragonBreathChannel,
     camera::{RenderLayer, YSorted},
-    playing,
+    playing, AppState,
 };
 
 use super::{
     combat::ImpactDamage,
     resource_pool::{Fire, ResourcePool},
-    InGameEntity, Player, BUILDING_GROUP, ENEMY_GROUP, FIRE_BREATH_GROUP,
+    Player, BUILDING_GROUP, ENEMY_GROUP, FIRE_BREATH_GROUP,
 };
 
 pub(super) struct FireBreathPlugin;
@@ -77,7 +77,7 @@ fn spawn_fire_breath(
         .get_handle("textures/fire_anim.png")
         .unwrap_or_default();
     let texture_atlas_layout_fire =
-        TextureAtlasLayout::from_grid(Vec2::new(40., 40.), 2, 1, None, None);
+        TextureAtlasLayout::from_grid(UVec2::new(40, 40), 2, 1, None, None);
     let texture_atlas_handle_fire = asset_server.add(texture_atlas_layout_fire);
     let animated_index: AtlasIndex = AtlasIndex::Animated(AnimatedIndex {
         indices: vec![0, 1],
@@ -86,36 +86,35 @@ fn spawn_fire_breath(
     });
 
     for &SpawnFireBreathEvent { damage, position } in spawn_fire_breath_event_reader.read() {
-        let mut fire_breath_entity_commands = commands.spawn(FireBreathBundle {
-            marker: Fire,
-            particle_system: ParticleSystemBundle {
-                transform: Transform::from_translation(position.extend(10.0)),
-                particle_system: ParticleSystem {
-                    max_particles: 10_000,
-                    texture: ParticleTexture::TextureAtlas {
-                        atlas: texture_atlas_handle_fire.clone(),
-                        index: animated_index.clone(),
-                        texture: fire_texture.clone(),
+        commands.spawn((
+            FireBreathBundle {
+                marker: Fire,
+                particle_system: ParticleSystemBundle {
+                    transform: Transform::from_translation(position.extend(10.0)),
+                    particle_system: ParticleSystem {
+                        max_particles: 10_000,
+                        texture: ParticleTexture::TextureAtlas {
+                            atlas: texture_atlas_handle_fire.clone(),
+                            index: animated_index.clone(),
+                            texture: fire_texture.clone(),
+                        },
+                        spawn_rate_per_second: 5.0.into(),
+                        initial_speed: JitteredValue::jittered(3.0, -1.0..1.0),
+                        lifetime: JitteredValue::jittered(4.0, -1.0..1.0),
+                        looping: false,
+                        despawn_on_finish: true,
+                        system_duration_seconds: 1.0,
+                        ..ParticleSystem::default()
                     },
-                    spawn_rate_per_second: 5.0.into(),
-                    initial_speed: JitteredValue::jittered(3.0, -1.0..1.0),
-                    lifetime: JitteredValue::jittered(4.0, -1.0..1.0),
-                    looping: false,
-                    despawn_on_finish: true,
-                    system_duration_seconds: 1.0,
-                    ..ParticleSystem::default()
+                    ..ParticleSystemBundle::default()
                 },
-                ..ParticleSystemBundle::default()
+                render_layers: RenderLayers::layer(RenderLayer::Ground.into()),
+                sensor: Sensor,
+                collider: Collider::ball(25.0),
+                damage: ImpactDamage(damage),
             },
-            render_layers: RenderLayers::layer(RenderLayer::Ground.into()),
-            sensor: Sensor,
-            collider: Collider::ball(25.0),
-            damage: ImpactDamage(damage),
-        });
-
-        fire_breath_entity_commands.insert((
             CollisionGroups::new(FIRE_BREATH_GROUP, BUILDING_GROUP | ENEMY_GROUP),
-            InGameEntity,
+            StateScoped(AppState::GameOver),
             Playing,
             YSorted,
         ));
@@ -124,12 +123,12 @@ fn spawn_fire_breath(
 
 fn update_fire_particles_render_layers(
     mut commands: Commands,
-    query: Query<(Entity, &Particle)>,
+    query: Query<(Entity, &Particle), Added<Particle>>,
     render_layers_query: Query<&RenderLayers>,
 ) {
     for (entity, particle) in &query {
         if let Ok(render_layers) = render_layers_query.get(particle.parent_system) {
-            commands.entity(entity).insert(*render_layers);
+            commands.entity(entity).insert(render_layers.clone());
         }
     }
 }

@@ -1,11 +1,15 @@
-use bevy::{prelude::*, text::BreakLineOn};
+use bevy::{
+    color::palettes::css::{GOLD, LIMEGREEN, RED},
+    prelude::*,
+    text::BreakLineOn,
+};
 
 use crate::{playing, AppState};
 
 use super::{
     resource_pool::{Fire, Health, ResourcePool},
     score_system::Score,
-    InGameEntity, Player,
+    Player,
 };
 
 const BAR_WIDTH: f32 = 150.;
@@ -42,7 +46,7 @@ struct ScoreDisplay;
 fn spawn_hud(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands
         .spawn((
-            InGameEntity,
+            StateScoped(AppState::GameOver),
             NodeBundle {
                 style: Style {
                     width: Val::Percent(100.),
@@ -71,7 +75,7 @@ fn spawn_hud(mut commands: Commands, asset_server: Res<AssetServer>) {
                 .with_children(|health_bar_builder| {
                     health_bar_builder.spawn((
                         NodeBundle {
-                            background_color: BackgroundColor(Color::RED),
+                            background_color: RED.into(),
                             style: Style {
                                 width: Val::Px(BAR_WIDTH - BAR_BORDER_SIZE * 2.),
                                 height: Val::Px(BAR_HEIGHT - BAR_BORDER_SIZE * 2.),
@@ -97,7 +101,7 @@ fn spawn_hud(mut commands: Commands, asset_server: Res<AssetServer>) {
                 .with_children(|fire_breath_bar_builder| {
                     fire_breath_bar_builder.spawn((
                         NodeBundle {
-                            background_color: BackgroundColor(Color::LIME_GREEN),
+                            background_color: LIMEGREEN.into(),
                             style: Style {
                                 width: Val::Px(BAR_WIDTH - BAR_BORDER_SIZE * 2.),
                                 height: Val::Px(BAR_HEIGHT - BAR_BORDER_SIZE * 2.),
@@ -110,9 +114,9 @@ fn spawn_hud(mut commands: Commands, asset_server: Res<AssetServer>) {
                 });
         });
 
-    // Score text in botton middle of screen
+    // Score text in bottom middle of screen
     commands.spawn((
-        InGameEntity,
+        StateScoped(AppState::GameOver),
         ScoreDisplay,
         TextBundle {
             text: Text {
@@ -124,7 +128,7 @@ fn spawn_hud(mut commands: Commands, asset_server: Res<AssetServer>) {
                             .get_handle("fonts/Prince Valiant.ttf")
                             .unwrap_or_default(),
                         font_size: 40.0,
-                        color: Color::GOLD,
+                        color: GOLD.into(),
                     },
                 }],
                 ..default()

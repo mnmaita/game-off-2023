@@ -2,14 +2,7 @@
 
 use animation::AnimationPlugin;
 use audio::{audio_assets_loaded, AudioPlugin, BgmChannel};
-use bevy::{
-    ecs::{event::EventUpdateSignal, query::QueryFilter},
-    prelude::*,
-    render::{
-        settings::{Backends, RenderCreation, WgpuSettings},
-        RenderPlugin,
-    },
-};
+use bevy::{asset::AssetMetaCheck, prelude::*};
 use bevy_embedded_assets::{EmbeddedAssetPlugin, PluginMode};
 use bevy_kira_audio::{AudioChannel, AudioControl};
 use camera::CameraPlugin;
@@ -40,23 +33,10 @@ fn main() {
             mode: PluginMode::ReplaceDefault,
         },
         DefaultPlugins
-            // FIXME: Remove setting the backend explicitly to avoid noisy warnings
-            // when https://github.com/gfx-rs/wgpu/issues/3959 gets fixed.
-            .set(
-                #[cfg(not(target_family = "wasm"))]
-                RenderPlugin {
-                    render_creation: RenderCreation::Automatic(WgpuSettings {
-                        backends: Some(Backends::DX12),
-                        ..default()
-                    }),
-                    ..default()
-                },
-                #[cfg(target_family = "wasm")]
-                RenderPlugin::default(),
-            )
             .set(ImagePlugin::default_nearest())
             .set(AssetPlugin {
                 mode: AssetMode::Unprocessed,
+                meta_check: AssetMetaCheck::Never,
                 ..default()
             })
             .set(WindowPlugin {
@@ -79,13 +59,13 @@ fn main() {
         TexturesPlugin,
     ));
 
-    app.world.remove_resource::<EventUpdateSignal>();
-
     app.init_state::<AppState>();
+
+    app.enable_state_scoped_entities::<AppState>();
 
     app.insert_resource(Msaa::Off);
 
-    app.insert_resource(ClearColor(Color::rgb(0., 0., 0.)));
+    app.insert_resource(ClearColor(Color::srgb(0., 0., 0.)));
 
     app.add_systems(
         Update,
@@ -113,12 +93,6 @@ fn handle_asset_load(mut state: ResMut<NextState<AppState>>) {
     #[cfg(debug_assertions)]
     info!("Assets loaded successfully.");
     state.set(AppState::MainMenu);
-}
-
-pub fn entity_cleanup<F: QueryFilter>(mut commands: Commands, query: Query<Entity, F>) {
-    for entity in &query {
-        commands.entity(entity).despawn_recursive();
-    }
 }
 
 pub fn stop_music_on_transition(bgm_audio_channel: Res<AudioChannel<BgmChannel>>) {

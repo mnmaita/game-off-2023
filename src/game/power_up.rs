@@ -13,7 +13,6 @@ use crate::{
 };
 
 use super::{
-    plugin::InGameEntity,
     resource_pool::{Health, ResourcePool},
     Player, HALF_TILE_SIZE, PLAYER_GROUP, POWERUP_GROUP,
 };
@@ -56,7 +55,8 @@ pub struct PowerUpBundle {
     pub marker: PowerUp,
     pub animation_indices: AnimationIndices,
     pub animation_timer: AnimationTimer,
-    pub sprite: SpriteSheetBundle,
+    pub sprite: SpriteBundle,
+    pub texture_atlas: TextureAtlas,
     pub collider: Collider,
     pub render_layers: RenderLayers,
     pub sensor: Sensor,
@@ -71,7 +71,7 @@ pub struct ScaleTextureAtlasLayoutHandle(Handle<TextureAtlasLayout>);
 
 fn load_scale_atlas(mut commands: Commands, asset_server: Res<AssetServer>) {
     let texture_atlas_layout_healing_scale =
-        TextureAtlasLayout::from_grid(Vec2::new(40., 40.), 2, 1, None, None);
+        TextureAtlasLayout::from_grid(UVec2::new(40, 40), 2, 1, None, None);
     let texture_atlas_layout_handle_healing_scale =
         asset_server.add(texture_atlas_layout_healing_scale);
 
@@ -100,27 +100,23 @@ fn spawn_powerups(
                 let mut rng = rand::thread_rng();
 
                 if rng.gen_bool(0.1) {
-                    let mut powerup_entity_commands = commands.spawn(PowerUpBundle {
-                        marker: PowerUp,
-                        animation_indices: AnimationIndices::new(0, 1),
-                        animation_timer: AnimationTimer::from_seconds(0.2),
-                        sprite: SpriteSheetBundle {
-                            atlas: TextureAtlas {
-                                layout: scale_texture_atlas_handler.0.clone(),
-                                index: 0,
+                    commands.spawn((
+                        PowerUpBundle {
+                            marker: PowerUp,
+                            animation_indices: AnimationIndices::new(0, 1),
+                            animation_timer: AnimationTimer::from_seconds(0.2),
+                            sprite: SpriteBundle {
+                                texture: texture_healing_scale.clone(),
+                                transform: *transform,
+                                ..default()
                             },
-                            texture: texture_healing_scale.clone(),
-                            transform: *transform,
-                            ..default()
+                            texture_atlas: scale_texture_atlas_handler.0.clone().into(),
+                            collider: Collider::cuboid(HALF_TILE_SIZE.x, HALF_TILE_SIZE.y),
+                            render_layers: RenderLayers::layer(RenderLayer::Sky.into()),
+                            sensor: Sensor,
+                            collision_groups: CollisionGroups::new(POWERUP_GROUP, PLAYER_GROUP),
                         },
-                        collider: Collider::cuboid(HALF_TILE_SIZE.x, HALF_TILE_SIZE.y),
-                        render_layers: RenderLayers::layer(RenderLayer::Sky.into()),
-                        sensor: Sensor,
-                        collision_groups: CollisionGroups::new(POWERUP_GROUP, PLAYER_GROUP),
-                    });
-
-                    powerup_entity_commands.insert((
-                        InGameEntity,
+                        StateScoped(AppState::GameOver),
                         LockedAxes::ROTATION_LOCKED,
                         YSorted,
                         RigidBody::Dynamic,

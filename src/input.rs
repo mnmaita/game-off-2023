@@ -28,9 +28,6 @@ impl Plugin for InputPlugin {
     }
 }
 
-#[derive(Resource)]
-struct CursorWorldPosition(Option<Vec2>);
-
 #[derive(SystemParam)]
 pub struct CursorWorldPositionChecker<'w, 's> {
     window_query: Query<'w, 's, &'static Window, With<PrimaryWindow>>,
@@ -52,9 +49,6 @@ impl CursorWorldPositionChecker<'_, '_> {
         })
     }
 }
-
-#[derive(Component)]
-struct FireBreathSfx;
 
 fn mouse_input(
     mut spawn_fire_breath_event_writer: EventWriter<SpawnFireBreathEvent>,

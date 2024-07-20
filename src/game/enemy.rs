@@ -13,8 +13,7 @@ use crate::{
 use super::{
     combat::{AttackDamage, AttackTimer, Range, SpawnProjectileEvent},
     resource_pool::{Health, ResourcePool},
-    BorderTile, InGameEntity, Player, BUILDING_GROUP, ENEMY_GROUP, FIRE_BREATH_GROUP,
-    HALF_TILE_SIZE, TILE_SIZE,
+    BorderTile, Player, BUILDING_GROUP, ENEMY_GROUP, FIRE_BREATH_GROUP, HALF_TILE_SIZE, TILE_SIZE,
 };
 
 #[derive(Resource, Deref)]
@@ -75,7 +74,8 @@ pub struct EnemyBundle {
     pub animation_indices: AnimationIndices,
     pub animation_timer: AnimationTimer,
     pub sprite_orientation: SpriteAnimation,
-    pub sprite: SpriteSheetBundle,
+    pub sprite: SpriteBundle,
+    pub texture_atlas: TextureAtlas,
     pub collider: Collider,
     pub render_layers: RenderLayers,
     pub rigid_body: RigidBody,
@@ -129,13 +129,12 @@ pub struct TextureArcherAtlasHandle(Handle<TextureAtlasLayout>);
 pub struct TextureAxeAtlasHandle(Handle<TextureAtlasLayout>);
 
 fn load_atlas_handlers(mut commands: Commands, asset_server: Res<AssetServer>) {
-    let texture_atlas_archer =
-        TextureAtlasLayout::from_grid(Vec2::new(72., 78.), 16, 8, None, None);
+    let texture_atlas_archer = TextureAtlasLayout::from_grid(UVec2::new(72, 78), 16, 8, None, None);
     let texture_atlas_handle_archer = asset_server.add(texture_atlas_archer);
 
     commands.insert_resource(TextureArcherAtlasHandle(texture_atlas_handle_archer));
 
-    let texture_atlas_axe = TextureAtlasLayout::from_grid(Vec2::new(72., 78.), 16, 8, None, None);
+    let texture_atlas_axe = TextureAtlasLayout::from_grid(UVec2::new(72, 78), 16, 8, None, None);
     let texture_atlas_handle_axe = asset_server.add(texture_atlas_axe);
 
     commands.insert_resource(TextureAxeAtlasHandle(texture_atlas_handle_axe));
@@ -183,38 +182,41 @@ fn spawn_enemies(
                 )
             };
 
-            let mut enemy_entity_commands = commands.spawn(EnemyBundle {
-                attack_damage: AttackDamage(5),
-                attack_timer: AttackTimer::new(3.),
-                behavior: Behavior::FollowPlayer {
-                    distance: TILE_SIZE.x * 6.,
-                },
-                hitpoints: ResourcePool::<Health>::new(1),
-                marker: Enemy,
-                range: Range(TILE_SIZE.x * 15.),
-                speed: Speed(2.),
-                animation_indices: AnimationIndices::new(4, 11),
-                animation_timer: AnimationTimer::from_seconds(0.2),
-                sprite_orientation: SpriteAnimation::RunLeft,
-                sprite: SpriteSheetBundle {
-                    atlas: TextureAtlas {
+            commands.spawn((
+                EnemyBundle {
+                    attack_damage: AttackDamage(5),
+                    attack_timer: AttackTimer::new(3.),
+                    behavior: Behavior::FollowPlayer {
+                        distance: TILE_SIZE.x * 6.,
+                    },
+                    hitpoints: ResourcePool::<Health>::new(1),
+                    marker: Enemy,
+                    range: Range(TILE_SIZE.x * 15.),
+                    speed: Speed(2.),
+                    animation_indices: AnimationIndices::new(4, 11),
+                    animation_timer: AnimationTimer::from_seconds(0.2),
+                    sprite_orientation: SpriteAnimation::RunLeft,
+                    sprite: SpriteBundle {
+                        texture,
+                        transform: Transform::from_translation(translation),
+                        ..default()
+                    },
+                    texture_atlas: TextureAtlas {
                         layout: texture_atlas_handle,
                         index: 4,
                     },
-                    texture,
-                    transform: Transform::from_translation(translation),
-                    ..default()
+                    collider: Collider::cuboid(HALF_TILE_SIZE.x, HALF_TILE_SIZE.y),
+                    render_layers: RenderLayers::layer(RenderLayer::Ground.into()),
+                    rigid_body: RigidBody::Dynamic,
+                    collision_groups: CollisionGroups::new(
+                        ENEMY_GROUP,
+                        ENEMY_GROUP | BUILDING_GROUP | FIRE_BREATH_GROUP,
+                    ),
                 },
-                collider: Collider::cuboid(HALF_TILE_SIZE.x, HALF_TILE_SIZE.y),
-                render_layers: RenderLayers::layer(RenderLayer::Ground.into()),
-                rigid_body: RigidBody::Dynamic,
-                collision_groups: CollisionGroups::new(
-                    ENEMY_GROUP,
-                    ENEMY_GROUP | BUILDING_GROUP | FIRE_BREATH_GROUP,
-                ),
-            });
-
-            enemy_entity_commands.insert((InGameEntity, LockedAxes::ROTATION_LOCKED, YSorted));
+                StateScoped(AppState::GameOver),
+                LockedAxes::ROTATION_LOCKED,
+                YSorted,
+            ));
         }
     }
 }

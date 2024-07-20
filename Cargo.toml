@@ -2,33 +2,34 @@
 name = "dragonskale"
 version = "0.1.4"
 edition = "2021"
-rust-version = "1.74.0"
+rust-version = "1.79.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-bevy = { version = "0.13.2", default-features = false, features = [
+bevy = { version = "0.14.0", default-features = false, features = [
     "bevy_asset",
     "bevy_core_pipeline",
     "bevy_gizmos",
     "bevy_render",
     "bevy_sprite",
+    "bevy_state",
     "bevy_text",
     "bevy_ui",
     "bevy_winit",
     "default_font",
-    "multi-threaded",
+    "multi_threaded",
     "png",
     "webgl2",
     "x11",
 ] }
-bevy_rapier2d = { version = "0.26.0", features = ["debug-render-2d"] }
-bevy_particle_systems = "0.12.0"
+bevy_rapier2d = { version = "0.27.0", features = ["debug-render-2d"] }
+bevy_particle_systems = "0.13.0"
 noise = "0.9.0"
 rand = "0.8.5"
 pathfinding = "4.10.0"
-bevy_embedded_assets = "0.10.2"
-bevy_kira_audio = "0.19.0"
+bevy_embedded_assets = "0.11.0"
+bevy_kira_audio = "0.20.0"
 
 [profile.dev.package."*"]
 opt-level = 3

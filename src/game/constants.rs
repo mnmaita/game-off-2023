@@ -5,8 +5,6 @@ pub const TILE_SIZE: Vec2 = Vec2::splat(16.);
 pub const GRID_SIZE: Vec2 = Vec2::new(200., 200.);
 pub const HALF_TILE_SIZE: Vec2 = Vec2::new(TILE_SIZE.x * 0.5, TILE_SIZE.y * 0.5);
 pub const HALF_GRID_SIZE: Vec2 = Vec2::new(GRID_SIZE.x * 0.5, GRID_SIZE.y * 0.5);
-pub const LEVEL_SIZE: Vec2 = Vec2::new(GRID_SIZE.x * TILE_SIZE.x, GRID_SIZE.y * TILE_SIZE.y);
-pub const HALF_LEVEL_SIZE: Vec2 = Vec2::new(LEVEL_SIZE.x * 0.5, LEVEL_SIZE.y * 0.5);
 
 pub const PLAYER_GROUP: Group = Group::GROUP_1;
 pub const ENEMY_GROUP: Group = Group::GROUP_2;
