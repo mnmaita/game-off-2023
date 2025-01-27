@@ -145,7 +145,7 @@ dependencies = [
  "ndk-context",
  "ndk-sys",
  "num_enum",
- "thiserror",
+ "thiserror 1.0.61",
 ]
 
 [[package]]
@@ -361,7 +361,7 @@ dependencies = [
  "parking_lot",
  "ron",
  "serde",
- "thiserror",
+ "thiserror 1.0.61",
  "wasm-bindgen",
  "wasm-bindgen-futures",
  "web-sys",
@@ -376,7 +376,7 @@ dependencies = [
  "bevy_macro_utils",
  "proc-macro2",
  "quote",
- "syn 2.0.64",
+ "syn 2.0.96",
 ]
 
 [[package]]
@@ -424,7 +424,7 @@ checksum = "f0e01f8343f391e2d6a63b368b82fb5b252ed43c8713fc87f9a8f2d59407dd00"
 dependencies = [
  "bevy_macro_utils",
  "quote",
- "syn 2.0.64",
+ "syn 2.0.96",
 ]
 
 [[package]]
@@ -459,7 +459,7 @@ dependencies = [
  "fixedbitset",
  "rustc-hash 1.1.0",
  "serde",
- "thiserror",
+ "thiserror 1.0.61",
  "thread_local",
 ]
 
@@ -472,7 +472,7 @@ dependencies = [
  "bevy_macro_utils",
  "proc-macro2",
  "quote",
- "syn 2.0.64",
+ "syn 2.0.96",
 ]
 
 [[package]]
@@ -527,7 +527,7 @@ dependencies = [
  "bevy_macro_utils",
  "proc-macro2",
  "quote",
- "syn 2.0.64",
+ "syn 2.0.96",
 ]
 
 [[package]]
@@ -556,7 +556,7 @@ dependencies = [
  "bevy_reflect",
  "bevy_utils",
  "smol_str",
- "thiserror",
+ "thiserror 1.0.61",
 ]
 
 [[package]]
@@ -604,7 +604,7 @@ dependencies = [
  "bevy",
  "kira",
  "parking_lot",
- "thiserror",
+ "thiserror 1.0.61",
  "uuid",
 ]
 
@@ -633,7 +633,7 @@ dependencies = [
  "proc-macro2",
  "quote",
  "rustc-hash 1.1.0",
- "syn 2.0.64",
+ "syn 2.0.96",
  "toml_edit",
 ]
 
@@ -734,7 +734,7 @@ dependencies = [
  "glam",
  "serde",
  "smol_str",
- "thiserror",
+ "thiserror 1.0.61",
 ]
 
 [[package]]
@@ -746,7 +746,7 @@ dependencies = [
  "bevy_macro_utils",
  "proc-macro2",
  "quote",
- "syn 2.0.64",
+ "syn 2.0.96",
  "uuid",
 ]
 
@@ -786,7 +786,7 @@ dependencies = [
  "naga",
  "naga_oil",
  "serde",
- "thiserror",
+ "thiserror 1.0.61",
  "thread_local",
  "wasm-bindgen",
  "web-sys",
@@ -802,7 +802,7 @@ dependencies = [
  "bevy_macro_utils",
  "proc-macro2",
  "quote",
- "syn 2.0.64",
+ "syn 2.0.96",
 ]
 
 [[package]]
@@ -821,7 +821,7 @@ dependencies = [
  "bevy_transform",
  "bevy_utils",
  "serde",
- "thiserror",
+ "thiserror 1.0.61",
  "uuid",
 ]
 
@@ -848,7 +848,7 @@ dependencies = [
  "guillotiere",
  "radsort",
  "rectangle-pack",
- "thiserror",
+ "thiserror 1.0.61",
 ]
 
 [[package]]
@@ -884,7 +884,7 @@ dependencies = [
  "bevy_window",
  "glyph_brush_layout",
  "serde",
- "thiserror",
+ "thiserror 1.0.61",
 ]
 
 [[package]]
@@ -898,7 +898,7 @@ dependencies = [
  "bevy_reflect",
  "bevy_utils",
  "crossbeam-channel",
- "thiserror",
+ "thiserror 1.0.61",
 ]
 
 [[package]]
@@ -912,7 +912,7 @@ dependencies = [
  "bevy_hierarchy",
  "bevy_math",
  "bevy_reflect",
- "thiserror",
+ "thiserror 1.0.61",
 ]
 
 [[package]]
@@ -940,7 +940,7 @@ dependencies = [
  "bevy_window",
  "bytemuck",
  "taffy",
- "thiserror",
+ "thiserror 1.0.61",
 ]
 
 [[package]]
@@ -952,11 +952,11 @@ dependencies = [
  "ahash",
  "bevy_utils_proc_macros",
  "getrandom",
- "hashbrown",
+ "hashbrown 0.14.5",
  "nonmax",
  "petgraph",
  "smallvec",
- "thiserror",
+ "thiserror 1.0.61",
  "tracing",
  "uuid",
  "web-time",
@@ -970,7 +970,7 @@ checksum = "bef158627f30503d5c18c20c60b444829f698d343516eeaf6eeee078c9a45163"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.64",
+ "syn 2.0.96",
 ]
 
 [[package]]
@@ -1032,7 +1032,7 @@ dependencies = [
  "regex",
  "rustc-hash 1.1.0",
  "shlex",
- "syn 2.0.64",
+ "syn 2.0.96",
 ]
 
 [[package]]
@@ -1159,7 +1159,7 @@ checksum = "4da9a32f3fed317401fa3c862968128267c3106685286e15d5aaa3d7389c2f60"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.64",
+ "syn 2.0.96",
 ]
 
 [[package]]
@@ -1185,7 +1185,7 @@ dependencies = [
  "polling",
  "rustix",
  "slab",
- "thiserror",
+ "thiserror 1.0.61",
 ]
 
 [[package]]
@@ -1538,7 +1538,7 @@ dependencies = [
  "proc-macro2",
  "quote",
  "semver",
- "syn 2.0.64",
+ "syn 2.0.96",
 ]
 
 [[package]]
@@ -1591,7 +1591,7 @@ dependencies = [
  "const_panic",
  "encase_derive",
  "glam",
- "thiserror",
+ "thiserror 1.0.61",
 ]
 
 [[package]]
@@ -1611,7 +1611,7 @@ checksum = "92959a9e8d13eaa13b8ae8c7b583c3bf1669ca7a8e7708a088d12587ba86effc"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.64",
+ "syn 2.0.96",
 ]
 
 [[package]]
@@ -1755,7 +1755,7 @@ checksum = "1a5c6c585bc94aaf2c7b51dd4c2ba22680844aba4c687be581871a6f518c5742"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.64",
+ "syn 2.0.96",
 ]
 
 [[package]]
@@ -1899,7 +1899,7 @@ checksum = "6f56f6318968d03c18e1bcf4857ff88c61157e9da8e47c5f29055d60e1228884"
 dependencies = [
  "log",
  "presser",
- "thiserror",
+ "thiserror 1.0.61",
  "winapi",
  "windows 0.52.0",
 ]
@@ -1912,7 +1912,7 @@ checksum = "cc11df1ace8e7e564511f53af41f3e42ddc95b56fd07b3f4445d2a6048bc682c"
 dependencies = [
  "bitflags 2.5.0",
  "gpu-descriptor-types",
- "hashbrown",
+ "hashbrown 0.14.5",
 ]
 
 [[package]]
@@ -1952,6 +1952,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "hashbrown"
+version = "0.15.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bf151400ff0baff5465007dd2f3e717f3fe502074ca563069ce3a6629d07b289"
+
+[[package]]
 name = "hassle-rs"
 version = "0.11.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1961,7 +1967,7 @@ dependencies = [
  "com",
  "libc",
  "libloading 0.8.3",
- "thiserror",
+ "thiserror 1.0.61",
  "widestring",
  "winapi",
 ]
@@ -2014,12 +2020,12 @@ dependencies = [
 
 [[package]]
 name = "indexmap"
-version = "2.2.6"
+version = "2.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "168fb715dda47215e360912c096649d23d58bf392ac62f73919e831745e40f26"
+checksum = "8c9c992b02b5b4c94ea26e32fe5bccb7aa7d9f390ab5c1221ff895bc7ea8b652"
 dependencies = [
  "equivalent",
- "hashbrown",
+ "hashbrown 0.15.2",
 ]
 
 [[package]]
@@ -2051,7 +2057,7 @@ dependencies = [
  "combine",
  "jni-sys",
  "log",
- "thiserror",
+ "thiserror 1.0.61",
  "walkdir",
  "windows-sys 0.45.0",
 ]
@@ -2286,7 +2292,7 @@ dependencies = [
  "rustc-hash 1.1.0",
  "spirv",
  "termcolor",
- "thiserror",
+ "thiserror 1.0.61",
  "unicode-xid",
 ]
 
@@ -2305,7 +2311,7 @@ dependencies = [
  "regex",
  "regex-syntax 0.8.3",
  "rustc-hash 1.1.0",
- "thiserror",
+ "thiserror 1.0.61",
  "tracing",
  "unicode-ident",
 ]
@@ -2350,7 +2356,7 @@ dependencies = [
  "ndk-sys",
  "num_enum",
  "raw-window-handle",
- "thiserror",
+ "thiserror 1.0.61",
 ]
 
 [[package]]
@@ -2431,7 +2437,7 @@ checksum = "ed3955f1a9c7c0c15e092f9c887db08b1fc683305fdf6eb6684f22555355e202"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.64",
+ "syn 2.0.96",
 ]
 
 [[package]]
@@ -2481,7 +2487,7 @@ dependencies = [
  "proc-macro-crate",
  "proc-macro2",
  "quote",
- "syn 2.0.64",
+ "syn 2.0.96",
 ]
 
 [[package]]
@@ -2672,16 +2678,16 @@ checksum = "57c0d7b74b563b49d38dae00a0c37d4d6de9b432382b2892f0574ddcae73fd0a"
 
 [[package]]
 name = "pathfinding"
-version = "4.11.0"
+version = "4.14.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1cff69f3ba9d0346c1dbe1248fc2ed4523567b683d1b6ff4144a6b3583369082"
+checksum = "59ac35caa284c08f3721fb33c2741b5f763decaf42d080c8a6a722154347017e"
 dependencies = [
  "deprecate-until",
  "indexmap",
  "integer-sqrt",
  "num-traits",
  "rustc-hash 2.0.0",
- "thiserror",
+ "thiserror 2.0.11",
 ]
 
 [[package]]
@@ -2783,9 +2789,9 @@ dependencies = [
 
 [[package]]
 name = "proc-macro2"
-version = "1.0.82"
+version = "1.0.93"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8ad3d49ab951a01fbaafe34f2ec74122942fe18a3f9814c3268f1bb72042131b"
+checksum = "60946a68e5f9d28b0dc1c21bb8a97ee7d018a8b322fa57838ba31cc878e22d99"
 dependencies = [
  "unicode-ident",
 ]
@@ -3078,7 +3084,7 @@ checksum = "6048858004bcff69094cd972ed40a32500f153bd3be9f716b2eed2e8217c4838"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.64",
+ "syn 2.0.96",
 ]
 
 [[package]]
@@ -3157,7 +3163,7 @@ version = "2.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "68330712eea6ce4123e2a732769ed19bba1f007fd2636cbdc6e6be2af8b606a4"
 dependencies = [
- "hashbrown",
+ "hashbrown 0.14.5",
  "num-traits",
  "robust",
  "smallvec",
@@ -3268,9 +3274,9 @@ dependencies = [
 
 [[package]]
 name = "syn"
-version = "2.0.64"
+version = "2.0.96"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7ad3dee41f36859875573074334c200d1add8e4a87bb37113ebd31d926b7b11f"
+checksum = "d5d0adab1ae378d7f53bdebc67a39f1f151407ef230f0ce2883572f5d8985c80"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3318,7 +3324,16 @@ version = "1.0.61"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c546c80d6be4bc6a00c0f01730c08df82eaa7a7a61f11d656526506112cc1709"
 dependencies = [
- "thiserror-impl",
+ "thiserror-impl 1.0.61",
+]
+
+[[package]]
+name = "thiserror"
+version = "2.0.11"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d452f284b73e6d76dd36758a0c8684b1d5be31f92b89d07fd5822175732206fc"
+dependencies = [
+ "thiserror-impl 2.0.11",
 ]
 
 [[package]]
@@ -3329,7 +3344,18 @@ checksum = "46c3384250002a6d5af4d114f2845d37b57521033f30d5c3f46c4d70e1197533"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.64",
+ "syn 2.0.96",
+]
+
+[[package]]
+name = "thiserror-impl"
+version = "2.0.11"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "26afc1baea8a989337eeb52b6e72a039780ce45c3edfcc9c5b9d112feeb173c2"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.96",
 ]
 
 [[package]]
@@ -3378,7 +3404,7 @@ checksum = "34704c8d6ebcbc939824180af020566b01a7c01f80641264eba0999f6c2b6be7"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.64",
+ "syn 2.0.96",
 ]
 
 [[package]]
@@ -3544,7 +3570,7 @@ dependencies = [
  "once_cell",
  "proc-macro2",
  "quote",
- "syn 2.0.64",
+ "syn 2.0.96",
  "wasm-bindgen-shared",
 ]
 
@@ -3578,7 +3604,7 @@ checksum = "e94f17b526d0a461a191c78ea52bbce64071ed5c04c9ffe424dcb38f74171bb7"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.64",
+ "syn 2.0.96",
  "wasm-bindgen-backend",
  "wasm-bindgen-shared",
 ]
@@ -3654,7 +3680,7 @@ dependencies = [
  "raw-window-handle",
  "rustc-hash 1.1.0",
  "smallvec",
- "thiserror",
+ "thiserror 1.0.61",
  "web-sys",
  "wgpu-hal",
  "wgpu-types",
@@ -3698,7 +3724,7 @@ dependencies = [
  "renderdoc-sys",
  "rustc-hash 1.1.0",
  "smallvec",
- "thiserror",
+ "thiserror 1.0.61",
  "wasm-bindgen",
  "web-sys",
  "wgpu-types",
@@ -4178,5 +4204,5 @@ checksum = "15e934569e47891f7d9411f1a451d947a60e000ab3bd24fbb970f000387d1b3b"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 2.0.64",
+ "syn 2.0.96",
 ]
